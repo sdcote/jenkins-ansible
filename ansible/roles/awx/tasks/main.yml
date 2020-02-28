@@ -1,0 +1,21 @@
+---
+
+- name: Install AWX dependencies.
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ awx_package_dependencies }}"
+  become: true
+
+- name: Clone AWX into configured directory.
+  git:
+    repo: "{{ awx_repo }}"
+    dest: "{{ awx_repo_dir }}"
+    version: "{{ awx_version }}"
+    update: "{{ awx_keep_updated }}"
+    force: true
+    accept_hostkey: true
+  become: true
+
+- include: awx-install-playbook.yml
+  when: awx_run_install_playbook

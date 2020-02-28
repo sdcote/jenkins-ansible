@@ -1,0 +1,6 @@
+[Artifactory]
+name=Artifactory
+baseurl=http://artapnat01.aepsc.com:8081/artifactory/rpm/7/os/x86_64/
+enabled=1
+gpgcheck=0
+

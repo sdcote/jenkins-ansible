@@ -1,0 +1,16 @@
+#
+
+[docker]
+selfserv20400.aepsc.com
+selfserv20423.aepsc.com
+
+[awx]
+selfserv20400.aepsc.com
+
+[jenkins]
+selfserv20423.aepsc.com
+
+[java]
+selfserv20402.aepsc.com
+
+# end of inventory

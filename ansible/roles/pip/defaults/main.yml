@@ -1,0 +1,10 @@
+---
+# For Python 3, use python3-pip.
+pip_package: python-pip
+pip_version: 20.0.2
+pip_executable: "{{ 'pip3' if pip_package.startswith('python3') else 'pip' }}"
+
+# These are package dependencies required the packages below
+pip_package_dependencies: []
+
+pip_install_packages: []

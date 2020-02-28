@@ -1,0 +1,22 @@
+---
+# This playbook installs Docker
+
+- name: Installing Docker...
+  hosts: jenkins
+
+  roles:
+    - common
+    - repo-epel
+    - docker
+
+  pre_tasks:
+
+    - name: Install Artifactory repository entry
+      template:
+        src: ./files/artifactory.repo
+        dest: /etc/yum.repos.d/artifactory.repo
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      tags: [repo, config]
+      become: true

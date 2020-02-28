@@ -1,0 +1,49 @@
+---
+# This playbook contains common plays that will be run on all nodes.
+
+- name: Ensure NTP-related packages are installed.
+  package:
+    name: ntp
+    state: present
+  become: true
+  tags: ntp
+
+- name: Ensure tzdata package is installed (Linux).
+  package:
+    name: "{{ ntp_tzdata_package }}"
+    state: present
+  when: ansible_system == "Linux"
+  tags: ntp
+
+- name: Set timezone
+  timezone:
+    name: "{{ ntp_timezone }}"
+  become: true
+  tags: ntp
+
+- name: Ensure NTP is running and enabled as configured.
+  service:
+    name: "{{ ntp_daemon }}"
+    state: started
+    enabled: true
+  become: true
+  when: ntp_enabled | bool
+  tags: ntp
+
+- name: Ensure NTP is stopped and disabled as configured.
+  service:
+    name: "{{ ntp_daemon }}"
+    state: stopped
+    enabled: false
+  become: true
+  when: not (ntp_enabled | bool)
+  tags: ntp
+
+- name: Generate ntp.conf file
+  template:
+    src: ntp.conf.j2
+    dest: /etc/ntp.conf
+  notify: restart ntp
+  become: true
+  when: ntp_manage_config | bool
+  tags: ntp

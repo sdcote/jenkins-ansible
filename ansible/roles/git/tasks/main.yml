@@ -1,0 +1,12 @@
+---
+- name: Ensure git is installed
+  package:
+    name: "{{ git_packages }}"
+    state: present
+    enablerepo: "{{ git_enablerepo | default(omit, true) }}"
+  become: true
+  when:
+    - not git_install_from_source | bool
+
+- import_tasks: install-from-source.yml
+  when: git_install_from_source | bool

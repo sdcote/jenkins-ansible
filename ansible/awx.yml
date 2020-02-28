@@ -1,0 +1,34 @@
+---
+
+- name: Installing Ansible AWX...
+  hosts: awx
+
+  vars:
+    pip_install_packages:
+      - name: docker
+      - name: docker-compose
+
+    pip_package_dependencies:
+      - python-devel
+
+  roles:
+    - common
+    - repo-epel
+    - git
+    - ansible
+    - pip
+    - docker
+    - nodejs
+    - awx
+
+  pre_tasks:
+
+    - name: Install Artifactory repository entry
+      template:
+        src: ./files/artifactory.repo
+        dest: /etc/yum.repos.d/artifactory.repo
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      tags: [repo, config]
+      become: true

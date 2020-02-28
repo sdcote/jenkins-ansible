@@ -1,0 +1,14 @@
+---
+- name: Run the AWX installation playbook.
+  command: "ansible-playbook -i inventory install.yml -e postgres_data_dir={{ postgres_data_dir }}"
+  args:
+    chdir: "{{ awx_repo_dir }}/installer"
+    creates: /tmp/awx_playbook_complete
+  become: true
+
+- name: Create a file to mark whether this playbook has completed.
+  file:
+    path: /tmp/awx_playbook_complete
+    state: touch
+  become: true
+  changed_when: false
